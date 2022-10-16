@@ -1,7 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Registration = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleName = (e) => {
+    setName(e.target.value);
+  }
+
+  const handleEmail = (e) => {
+    const test = /^\S+@\S+\.\S+$/.test(e.target.value);
+    if (!test) {
+      setError('Please give a valid email');
+      return;
+    }
+    setEmail(e.target.value);
+    setError('');
+  }
+
+  const handlePassword = (e) => {
+    if (!/(?=.{8,})/.test(e.target.value)) {
+      console.log(e.target.value);
+      setError("Password myst be 8 character");
+      return;
+    }
+
+    setError('');
+    setPassword(e.target.value);
+  };
+
+  console.log(email);
+
   return (
     <div className="mt-5">
       <div className="main-container d-flex container justify-content-between align-items-center">
@@ -14,21 +46,24 @@ const Registration = () => {
         </div>
         <div className="register-form  w-100">
           <div className="input-box">
-            <p className="text-danger">{"error"}</p>
+            <p className="text-danger">{error}</p>
             <form action="">
               <input
+                onBlur={handleName}
                 className="form-control p-3 m-2"
                 type="text"
                 placeholder="Enter your name"
                 required
               />
               <input
+                onBlur={handleEmail}
                 className="form-control p-3 m-2"
                 type="email"
                 placeholder="Email"
                 required
               />
               <input
+                onBlur={handlePassword}
                 className="form-control p-3 m-2"
                 type="password"
                 placeholder="password"
